@@ -51,7 +51,7 @@ public struct Device {
         return identifier
     }
     
-    static var isOld: Bool = {
+    public static var isOld: Bool = {
         if hardwareModelName.contains("iPhone"), // "iPhone"
            let firstNumberString = hardwareModelName.compactMap({ String($0) })[safe: 6],
            let firstNumber = Int(firstNumberString),
