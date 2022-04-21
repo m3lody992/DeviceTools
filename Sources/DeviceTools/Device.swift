@@ -7,6 +7,16 @@
 
 import Foundation
 
+extension Collection {
+
+    /// Returns the element at the specified index if it is within bounds, otherwise nil.
+    subscript (safe index: Index) -> Element? {
+        index >= startIndex && index < endIndex ? self[index] : nil
+    }
+
+}
+
+
 public struct Device {
 
     public static var id: String {
@@ -40,6 +50,24 @@ public struct Device {
         }
         return identifier
     }
+    
+    static var isOld: Bool = {
+        if hardwareModelName.contains("iPhone"), // "iPhone"
+           let firstNumberString = hardwareModelName.compactMap({ String($0) })[safe: 6],
+           let firstNumber = Int(firstNumberString),
+           (3...8).contains(firstNumber) {
+            return true
+        } else if hardwareModelName.contains("iPad"), // "iPad"
+                  let firstNumberString = hardwareModelName.compactMap({ String($0) })[safe: 4],
+                  let firstNumber = Int(firstNumberString),
+                  (2...5).contains(firstNumber) {
+            return true
+        } else if hardwareModelName.contains("iPod") { // "iPod"
+            return true
+        } else {
+            return false
+        }
+    }()
 
     // isJailbroken
     public static var hasKorenina: Bool {
